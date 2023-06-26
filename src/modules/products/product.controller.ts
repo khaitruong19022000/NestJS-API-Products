@@ -1,29 +1,94 @@
 import { Controller, Delete, Get, Post, Put } from "@nestjs/common";
+import { ProductService } from "./product.service";
+import { ResponseData } from "src/global/globalClass";
+import { HttpMessage, HttpStatus } from "src/global/globalEnum";
+import { Product } from "src/models/product.model";
 
 @Controller('products')
 export class ProductController {
-    @Get()
-    getProducts(): string {
-        return 'Get Products';
-    }
+  constructor(private readonly productService: ProductService) {}
 
-    @Post()
-    createProduct(): string {
-        return 'Post Product';
+  @Get()
+  getProducts(): ResponseData<Product []> {
+    try {
+      return new ResponseData<Product []>(
+        this.productService.getProducts(),
+        HttpStatus.SUCCESS,
+        HttpMessage.SUCCESS,
+      );
+    } catch (err) {
+      return new ResponseData<Product []>(
+        null,
+        HttpStatus.ERROR,
+        HttpMessage.ERROR,
+      );
     }
+  }
+  @Post()
+  createProduct(): ResponseData<string> {
+    try {
+        return new ResponseData<string>(
+          this.productService.createProduct(),
+          HttpStatus.SUCCESS,
+          HttpMessage.SUCCESS,
+        );
+      } catch (err) {
+        return new ResponseData<string>(
+          null,
+          HttpStatus.ERROR,
+          HttpMessage.ERROR,
+        );
+      }
+  }
 
-    @Get('/:id')
-    detailProduct(): string {
-        return 'Product Detail';
-    }
+  @Get('/:id')
+  detailProduct(): ResponseData<string> {
+    try {
+        return new ResponseData<string>(
+          this.productService.detailProduct(),
+          HttpStatus.SUCCESS,
+          HttpMessage.SUCCESS,
+        );
+      } catch (err) {
+        return new ResponseData<string>(
+          null,
+          HttpStatus.ERROR,
+          HttpMessage.ERROR,
+        );
+      }
+  }
 
-    @Put('/:id')
-    updateProduct(): string {
-        return 'Update Product';
-    }
+  @Put('/:id')
+  updateProduct(): ResponseData<string> {
+    try {
+        return new ResponseData<string>(
+          this.productService.updateProduct(),
+          HttpStatus.SUCCESS,
+          HttpMessage.SUCCESS,
+        );
+      } catch (err) {
+        return new ResponseData<string>(
+          null,
+          HttpStatus.ERROR,
+          HttpMessage.ERROR,
+        );
+      }
+  }
 
-    @Delete('/:id')
-    deleteProduct(): string {
-        return 'Delete Product';
-    }
+  @Delete('/:id')
+  deleteProduct(): ResponseData<string> {
+    try {
+        return new ResponseData<string>(
+          this.productService.deleteProduct(),
+          HttpStatus.SUCCESS,
+          HttpMessage.SUCCESS,
+        );
+      } catch (err) {
+        return new ResponseData<string>(
+          null,
+          HttpStatus.ERROR,
+          HttpMessage.ERROR,
+        );
+      }
+  }
 }    
