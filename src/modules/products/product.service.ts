@@ -30,11 +30,24 @@ export class ProductService {
         return this.products.find(item => item.id === Number(id));
     }
 
-    updateProduct(): string {
-        return 'Update Product';
+    updateProduct(productDto: ProductDto, id: number): Product {
+        const index = this.products.findIndex(item => item.id === Number(id));
+
+        this.products[index].categoryId = productDto.categoryId;
+        this.products[index].price = productDto.price;
+        this.products[index].productName = productDto.productName;
+
+        return this.products[index];
     }
 
-    deleteProduct(): string {
-        return 'Delete Product';
+    deleteProduct(id: number): boolean {
+        const index = this.products.findIndex(item => item.id === Number(id));
+       
+        if(index !== -1) {
+            this.products.splice(index, 1);
+            return true;
+        }
+        // this.products = this.products.filter(item => item.id !== Number(id))
+        return false;
     }
 }
